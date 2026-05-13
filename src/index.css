@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  --color-gold: #D4AF37;
+  --color-dark-red: #8B0000;
+  --color-luxury-black: #050505;
+  --color-sidebar-black: #0a0a0a;
+  --color-header-black: #070707;
+  --color-card-black: #111111;
+  --color-border-subtle: #1a1a1a;
+  
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Inter", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-luxury-black text-[#e5e5e5] font-sans selection:bg-gold selection:text-black;
+  }
+  
+  h1, h2, h3, h4 {
+    @apply font-serif tracking-tight text-white;
+  }
+}
+
+.gold-gradient {
+  background: linear-gradient(135deg, #D4AF37 0%, #F1D592 50%, #D4AF37 100%);
+}
+
+.sophisticated-card {
+  @apply bg-gradient-to-br from-card-black to-luxury-black border border-border-subtle rounded-xl overflow-hidden;
+}
+
+.sidebar-link-active {
+  @apply bg-gold/10 text-gold border-l-2 border-gold;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-border-subtle rounded-full hover:bg-gold/20 transition-colors;
+}
