@@ -55,3 +55,23 @@ Start the production server:
 ```bash
 npm start
 ```
+
+## Deployment to AWS Amplify
+
+This project is optimized for deployment on **AWS Amplify Hosting**.
+
+### Steps to Publish:
+
+1.  **Connect to GitHub**: Link your repository to AWS Amplify in the [AWS Console](https://console.aws.amazon.com/amplify).
+2.  **Build Settings**: Amplify will automatically detect the `amplify.yml` file. Ensure the "Build Image" supports Node.js 18 or higher.
+3.  **Environment Variables**: 
+    -   In the Amplify console, go to **App Settings > Environment Variables**.
+    -   Add `GEMINI_API_KEY` with your Google Gemini API key.
+4.  **Redirects (SPA Support)**:
+    -   Go to **App Settings > Rewrites and redirects**.
+    -   Add a rule: `Source address: </^[^.]+$|\\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|map|json|webp)$)(.*)/>`, `Target address: /index.html`, `Type: 200 (Rewrite)`. This ensures refreshes on sub-routes don't return 404.
+
+### Note on Full-Stack Logic:
+In a static hosting environment like Amplify Hosting, the custom Express server (`server.ts`) does not run. The application uses a built-in `DataService` that:
+1.  Attempts to call the local API.
+2.  Falls back to `localStorage` and mock data if the API is unreachable, ensuring a fully functional demo experience.

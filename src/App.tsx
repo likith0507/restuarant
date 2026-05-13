@@ -31,6 +31,7 @@ import {
 } from 'recharts';
 import { User, UserRole, MenuItem, Order, Reservation, InventoryItem } from './types';
 import { getFoodRecommendations, getSalesInsights } from './lib/gemini';
+import { api } from './services/api';
 import ReactMarkdown from 'react-markdown';
 
 // Mock Data
@@ -237,8 +238,8 @@ function DashboardView() {
   const [inventory, setInventory] = React.useState<InventoryItem[]>([]);
 
   React.useEffect(() => {
-    fetch('/api/orders').then(r => r.json()).then(setOrders);
-    fetch('/api/inventory').then(r => r.json()).then(setInventory);
+    api.getOrders().then(setOrders);
+    api.getInventory().then(setInventory);
   }, []);
 
   const totalRevenue = orders.reduce((sum, o) => sum + (o.total || 0), 0);
@@ -337,7 +338,8 @@ function MenuView() {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    fetch('/api/menu').then(r => r.json()).then(data => {
+    setLoading(true);
+    api.getMenu().then(data => {
       setItems(data);
       setLoading(false);
     });
@@ -389,7 +391,8 @@ function OrdersView() {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    fetch('/api/orders').then(r => r.json()).then(data => {
+    setLoading(true);
+    api.getOrders().then(data => {
       setOrders(data);
       setLoading(false);
     });
@@ -452,7 +455,8 @@ function ReservationsView() {
   const [showForm, setShowForm] = React.useState(false);
 
   const fetchReservations = () => {
-    fetch('/api/reservations').then(r => r.json()).then(data => {
+    setLoading(true);
+    api.getReservations().then(data => {
       setReservations(data);
       setLoading(false);
     });
@@ -585,11 +589,7 @@ function ReservationForm({ onSuccess }: { onSuccess: () => void }) {
       status: 'confirmed'
     };
 
-    await fetch('/api/reservations', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(res)
-    });
+    await api.addReservation(res);
 
     setSubmitting(false);
     onSuccess();
@@ -639,7 +639,8 @@ function InventoryView() {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    fetch('/api/inventory').then(r => r.json()).then(data => {
+    setLoading(true);
+    api.getInventory().then(data => {
       setInventory(data);
       setLoading(false);
     });
