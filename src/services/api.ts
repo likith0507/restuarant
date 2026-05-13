@@ -24,9 +24,10 @@ const INITIAL_ORDERS: Order[] = [
   {
     id: "ORD-X192",
     createdAt: new Date().toISOString(),
-    items: [{ name: "Paneer Tikka Angara", price: 450, quantity: 2 }],
+    items: [{ menuItemId: "1", name: "Paneer Tikka Angara", price: 450, quantity: 2 }],
     status: "served",
-    total: 900
+    total: 900,
+    type: "dine-in"
   }
 ];
 

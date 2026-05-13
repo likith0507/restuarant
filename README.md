@@ -63,15 +63,13 @@ This project is optimized for deployment on **AWS Amplify Hosting**.
 ### Steps to Publish:
 
 1.  **Connect to GitHub**: Link your repository to AWS Amplify in the [AWS Console](https://console.aws.amazon.com/amplify).
-2.  **Build Settings**: Amplify will automatically detect the `amplify.yml` file. Ensure the "Build Image" supports Node.js 18 or higher.
-3.  **Environment Variables**: 
-    -   In the Amplify console, go to **App Settings > Environment Variables**.
-    -   Add `GEMINI_API_KEY` with your Google Gemini API key.
+2.  **Zero Configuration**: The application is designed to be "plug-and-play". It automatically detects if a server or API keys are missing and falls back to a high-fidelity local simulation mode.
+3.  **Optional AI Acceleration**:
+    -   To enable live AI insights, add `GEMINI_API_KEY` to your environment variables in the Amplify console.
+    -   If omitted, the app will use sophisticated pre-cached insights to maintain the "luxury terminal" experience.
 4.  **Redirects (SPA Support)**:
-    -   Go to **App Settings > Rewrites and redirects**.
-    -   Add a rule: `Source address: </^[^.]+$|\\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|map|json|webp)$)(.*)/>`, `Target address: /index.html`, `Type: 200 (Rewrite)`. This ensures refreshes on sub-routes don't return 404.
+    -   In the Amplify console, go to **App Settings > Rewrites and redirects**.
+    -   Add a rule to redirect all routes to `index.html` for true Single Page Application (SPA) support.
 
-### Note on Full-Stack Logic:
-In a static hosting environment like Amplify Hosting, the custom Express server (`server.ts`) does not run. The application uses a built-in `DataService` that:
-1.  Attempts to call the local API.
-2.  Falls back to `localStorage` and mock data if the API is unreachable, ensuring a fully functional demo experience.
+### Full-Stack Intelligence:
+The app uses a hybrid `DataService` that seamlessly transitions between real backend responses and consistent browser-local state, ensuring your data persists even without a database.
